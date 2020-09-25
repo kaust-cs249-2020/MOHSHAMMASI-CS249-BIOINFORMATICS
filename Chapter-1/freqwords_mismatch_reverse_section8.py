@@ -80,8 +80,6 @@ def frequent_words_with_mismatch_and_reverse(genome, k, d):
     for i in range(0, n-k):
         pattern = genome[i:i+k]
         neighborhood = neighbors(pattern, d)
-        reverse_pattern = reverse_complement(pattern)
-        reverse_neighborhood = neighbors(reverse_pattern, d)
 
         for j in range(0, len(neighborhood)):
             neighbor = neighborhood[j]
@@ -95,19 +93,6 @@ def frequent_words_with_mismatch_and_reverse(genome, k, d):
                 frequency_dict[reverse_n] += 1
             else:
                 frequency_dict[reverse_n] = 1
-
-        #for j in range(0, len(reverse_neighborhood)):
-        #    reverse_neighbor = reverse_neighborhood[j]
-        #    neighbor = reverse_complement(reverse_neighbor)
-        #    if reverse_neighbor in frequency_dict:
-        #        frequency_dict[reverse_neighbor] += 1
-        #    else:
-        #        frequency_dict[reverse_neighbor] = 1
-
-        #    if neighbor in frequency_dict:
-        #        frequency_dict[neighbor] += 1
-        #    else:
-        #        frequency_dict[neighbor] = 1
 
     max = max_map(frequency_dict)
     for key in frequency_dict:
