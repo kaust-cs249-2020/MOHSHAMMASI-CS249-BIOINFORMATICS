@@ -5,7 +5,7 @@ def read_input(filename):
         input_file = open(filename, "r")
         graph_al = dict()
         for line in input_file:
-            graph_al[line.split(' ')[0]] = set(num for num in line[len(line.split(' ')[0])+4:].rstrip('\n').split(','))
+            graph_al[line.split(' ')[0]] = list(num for num in line[len(line.split(' ')[0])+4:].rstrip('\n').split(','))
         input_file.close()
         i=0
         for edge in graph_al:
@@ -26,8 +26,8 @@ def maximal_non_branching_paths(graph):
     for node in graph:
         degrees[node] = len(graph[node])
         for node2 in graph:
-            if node in graph[node2]:
-                degrees[node] += 1
+            degrees[node] += graph[node2].count(node)
+    print(degrees)
 
     paths = []
     for node in graph:
@@ -37,25 +37,16 @@ def maximal_non_branching_paths(graph):
                     non_branching_path = node + '->' + edge
                     one_in_one_out_node = True
                     while one_in_one_out_node:
-                        #print('stuck here ', non_branching_path)
                         non_branching_path_nodes = non_branching_path.split('->')
                         idx = len(non_branching_path_nodes)-1
                         last_n_in_path = non_branching_path_nodes[idx]
                         try:
                             edges = graph[last_n_in_path]
+                            print(last_n_in_path)
+                            print(degrees[last_n_in_path])
                             if len(edges) == 1 and degrees[last_n_in_path] == 2:
                                 e = next(iter(edges))
                                 non_branching_path += "->" + e
-                                #non_branching_path_nodes = non_branching_path.split('->')
-                                #already_there = False
-                                #for node in non_branching_path_nodes:
-                                #    if e == node:
-                                #        already_there = True
-
-                                #if not already_there:
-                                #    non_branching_path += "->" + e
-                                #else:
-                                #    one_in_one_out_node = False
                             else:
                                 one_in_one_out_node = False
                         except KeyError as e:
