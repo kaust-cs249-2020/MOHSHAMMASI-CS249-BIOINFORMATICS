@@ -16,9 +16,8 @@ def linear_spectrum(peptide):
     peptide = ' ' + peptide  # pad first space
     n = len(peptide)
     for i in range(1, n):
-        for s in integer_mass_table:
-            if s == peptide[i]:
-                prefix_mass.append(prefix_mass[i-1] + integer_mass_table[s])
+        prefix_mass.append(prefix_mass[i-1] + integer_mass_table[peptide[i]])
+
     linear_spectrum = [0]
     for i in range(0, n-1):
         for j in range(i+1, n):
