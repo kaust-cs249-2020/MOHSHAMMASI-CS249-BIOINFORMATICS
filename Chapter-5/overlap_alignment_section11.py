@@ -57,28 +57,28 @@ def OverlapAlignmentBacktrack(g1, g2):
     idx2 = n2
     return longest_path, backtrack, idx1, idx2, longest_path[idx1][idx2]
 
-def OutputOverlapAlignment(longest_path, backtrack, g1, g2, i, j):
+def OutputOverlapAlignment(backtrack, g1, g2, i, j):
     # Base case
     if i == 0 or j == 0:
         return '', ''
 
     if backtrack[i][j] == 'D':
-        s1, s2 = OutputOverlapAlignment(longest_path, backtrack, g1, g2, i-1, j)
+        s1, s2 = OutputOverlapAlignment(backtrack, g1, g2, i-1, j)
         s1 += g1[i-1]
         s2 += '-'
         return s1, s2
     elif backtrack[i][j] == 'R':
-        s1, s2 = OutputOverlapAlignment(longest_path, backtrack, g1, g2, i, j-1)
+        s1, s2 = OutputOverlapAlignment(backtrack, g1, g2, i, j-1)
         s1 += '-'
         s2 += g2[j-1]
         return s1, s2
     elif backtrack[i][j] == 'M':
-        s1, s2 = OutputOverlapAlignment(longest_path, backtrack, g1, g2, i-1, j-1)
+        s1, s2 = OutputOverlapAlignment(backtrack, g1, g2, i-1, j-1)
         s1 += g1[i-1]
         s2 += g2[j-1]
         return s1, s2
     else:
-        s1, s2 = OutputOverlapAlignment(longest_path, backtrack, g1, g2, i-1, j-1)
+        s1, s2 = OutputOverlapAlignment(backtrack, g1, g2, i-1, j-1)
         s1 += g1[i-1]
         s2 += g2[j-1]
         return s1, s2
@@ -86,7 +86,7 @@ def OutputOverlapAlignment(longest_path, backtrack, g1, g2, i, j):
 def start():
     genome1, genome2 = read_input("dataset.txt")
     longest_path, backtrack, idx1, idx2, score = OverlapAlignmentBacktrack(genome2, genome1)
-    s1, s2 = OutputOverlapAlignment(longest_path, backtrack, genome2, genome1, idx1, idx2)
+    s1, s2 = OutputOverlapAlignment(backtrack, genome2, genome1, idx1, idx2)
     #print(score)
     #print(s2)
     #print(s1)

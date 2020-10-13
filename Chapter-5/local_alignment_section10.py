@@ -61,7 +61,7 @@ def LocalAlignmentBacktrack(g1, g2, scoring_matrix):
     i, j = unravel_index(longest_path.argmax(), longest_path.shape)
     return longest_path, backtrack, i, j, longest_path[i][j]
 
-def OutputLocalAlignment(longest_path, backtrack, g1, g2, i, j):
+def OutputLocalAlignment(backtrack, g1, g2, i, j):
     # Base case
     if i == 0 or j == 0:
         return '', ''
@@ -69,22 +69,22 @@ def OutputLocalAlignment(longest_path, backtrack, g1, g2, i, j):
         return '', ''
 
     if backtrack[i][j] == 'D':
-        s1, s2 = OutputLocalAlignment(longest_path, backtrack, g1, g2, i-1, j)
+        s1, s2 = OutputLocalAlignment(backtrack, g1, g2, i-1, j)
         s1 += g1[i-1]
         s2 += '-'
         return s1, s2
     elif backtrack[i][j] == 'R':
-        s1, s2 = OutputLocalAlignment(longest_path, backtrack, g1, g2, i, j-1)
+        s1, s2 = OutputLocalAlignment(backtrack, g1, g2, i, j-1)
         s1 += '-'
         s2 += g2[j-1]
         return s1, s2
     elif backtrack[i][j] == 'M':
-        s1, s2 = OutputLocalAlignment(longest_path, backtrack, g1, g2, i-1, j-1)
+        s1, s2 = OutputLocalAlignment(backtrack, g1, g2, i-1, j-1)
         s1 += g1[i-1]
         s2 += g2[j-1]
         return s1, s2
     else:
-        s1, s2 = OutputLocalAlignment(longest_path, backtrack, g1, g2, i-1, j-1)
+        s1, s2 = OutputLocalAlignment(backtrack, g1, g2, i-1, j-1)
         s1 += g1[i-1]
         s2 += g2[j-1]
         return s1, s2
@@ -92,7 +92,7 @@ def OutputLocalAlignment(longest_path, backtrack, g1, g2, i, j):
 def start():
     genome1, genome2, scoring_matrix = read_input("dataset.txt", "PAM250.txt")
     longest_path, backtrack, i, j, score = LocalAlignmentBacktrack(genome1, genome2, scoring_matrix)
-    s1, s2 = OutputLocalAlignment(longest_path, backtrack, genome1, genome2, i, j)
+    s1, s2 = OutputLocalAlignment(backtrack, genome1, genome2, i, j)
     #print(score)
     #print(s1)
     #print(s2)
