@@ -1,6 +1,6 @@
 import numpy as np
 import sys
-sys.setrecursionlimit(1500)
+sys.setrecursionlimit(5000)
 
 # scoring matrix string
 s = 'ACDEFGHIKLMNPQRSTVWY' # string is useless just here for illustration
