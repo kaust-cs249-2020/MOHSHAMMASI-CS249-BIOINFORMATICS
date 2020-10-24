@@ -24,10 +24,27 @@ def reverse_complement(string):
             print('This string contains a weird thing')
     return reverse_string
 
+## added for exam
+def transcribe(dna):
+    dna = list(dna)
+    for i in range(0, len(dna)):
+        if dna[i] == 'T':
+            dna[i] = 'U'
+    return ''.join(dna)
+
 def start():
     string = read_input("dataset.txt")
     result = reverse_complement(string)
     print(result)
+    print('Reverse complement from right to left is: ')
+    result = list(result)
+    result.reverse()
+    result = ''.join(result)
+    print(result)
+
+    rna = transcribe(result)
+    print('RNA of RC: ')
+    print(rna)
 
 
 if __name__ == '__main__':
