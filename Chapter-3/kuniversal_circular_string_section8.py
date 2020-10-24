@@ -179,6 +179,7 @@ def start():
     cycle_pataterns = cycle.split('->')
     result = genome_path(cycle_pataterns)
     cut = 2**k
+    print('Uncut string is', result)
     print(result[:cut])
     print(len(result[:cut]))
 

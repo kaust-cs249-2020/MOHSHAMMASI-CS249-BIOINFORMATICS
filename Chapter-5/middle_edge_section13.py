@@ -70,7 +70,7 @@ def MiddleEdge(g1, g2, scoring_matrix, toSink=False):
                 middle_col.append(longest_path[i][1])
 
                 # info about incoming edges
-                if toSink: 
+                if toSink:
                     if longest_path[i][1] == (longest_path[i-1][0] + match):
                         edges.append('M') # represents diagonals
                     elif longest_path[i][1] == (longest_path[i-1][0] + u):
@@ -92,29 +92,19 @@ def start():
     _1genome = flip_string(genome1)
     _2genome = flip_string(genome2)
 
-    if len(genome1) > len(genome2):
-        from_source = MiddleEdge(genome1, genome2, scoring_matrix)
-        #print(from_source)
-        #print('----')
-        to_sink, edges = MiddleEdge(_1genome, _2genome, scoring_matrix, True)
-        j = floor(len(genome1)/2)
-        print('middle col index: ', j)
-        #print(to_sink)
-    else:
-        from_source = MiddleEdge(genome2, genome1, scoring_matrix)
-        #print(from_source)
-        #print('----')
-        to_sink, edges = MiddleEdge(_2genome, _1genome, scoring_matrix, True)
-        j = floor(len(genome2)/2)
-        print('middle col index: ', j)
-        #print(to_sink)
-    #edges.reverse() # must reverse
+    from_source = MiddleEdge(genome1, genome2, scoring_matrix)
+    #print(from_source)
+    #print('----')
+    to_sink, edges = MiddleEdge(_1genome, _2genome, scoring_matrix, True)
+    j = floor(len(genome1)/2)
+    print('middle col index: ', j)
+    #print(to_sink)
 
 
     n = len(from_source)
     length = []
     for i in range(0, n):
-        length.append((from_source[i] + to_sink[n-1-i]))
+        length.append((from_source[i] + to_sink[i]))
     print(length)
     print(max(length))
 

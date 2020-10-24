@@ -35,13 +35,15 @@ def LocalAlignmentBacktrack(g1, g2, scoring_matrix):
             u = 0
             if g1[i-1] == g2[j-1]:
                 l_pos = letter_position[g1[i-1]]
-                match = scoring_matrix[l_pos][l_pos]
+                #match = scoring_matrix[l_pos][l_pos]
+                match = 2
                 longest_path[i][j] = max(0, longest_path[i-1][j]-sigma, longest_path[i][j-1]-sigma, \
                 longest_path[i-1][j-1] + match)
             else:
                 l1_pos = letter_position[g1[i-1]]
                 l2_pos = letter_position[g2[j-1]]
-                u = scoring_matrix[l1_pos][l2_pos]
+                #u = scoring_matrix[l1_pos][l2_pos]
+                u = -2
                 longest_path[i][j] = max(0, longest_path[i-1][j]-sigma, longest_path[i][j-1]-sigma, \
                 longest_path[i-1][j-1] + u)
 
@@ -93,19 +95,20 @@ def start():
     genome1, genome2, scoring_matrix = read_input("dataset.txt", "PAM250.txt")
     longest_path, backtrack, i, j, score = LocalAlignmentBacktrack(genome1, genome2, scoring_matrix)
     s1, s2 = OutputLocalAlignment(backtrack, genome1, genome2, i, j)
-    #print(score)
-    #print(s1)
-    #print(s2)
+    print(longest_path)
+    print(score)
+    print(s1)
+    print(s2)
 
-    try:
-        output_file = open("output.txt", "w")
-        output_file.write(str(score) + '\n')
-        output_file.write(s1 + '\n')
-        output_file.write(s2 + '\n')
-        output_file.close()
-        print("Output written successfully to the textfile.")
-    except:
-        print('File I/O Error...')
+    #try:
+    #    output_file = open("output.txt", "w")
+    #    output_file.write(str(score) + '\n')
+    #    output_file.write(s1 + '\n')
+    #    output_file.write(s2 + '\n')
+    #    output_file.close()
+    #    print("Output written successfully to the textfile.")
+    #except:
+    #    print('File I/O Error...')
 
 if __name__ == '__main__':
     start()

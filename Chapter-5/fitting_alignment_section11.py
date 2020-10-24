@@ -16,7 +16,7 @@ def read_input(filename):
 
 def FittingAlignmentBacktrack(g1, g2):
     # sigma is indel penalty
-    sigma = 1
+    sigma = 5
     n1 = len(g1)
     n2 = len(g2)
     longest_path = np.zeros((n1+1, n2+1), dtype=int)
@@ -32,13 +32,13 @@ def FittingAlignmentBacktrack(g1, g2):
             match = 0
             u = 0
             if g1[i-1] == g2[j-1]:
-                match = 1
+                match = 2
                 longest_path[i][j] = max(longest_path[i-1][j]-sigma, longest_path[i][j-1]-sigma, \
                 longest_path[i-1][j-1] + match)
             else:
-                u = 1
+                u = -2
                 longest_path[i][j] = max(longest_path[i-1][j]-sigma, longest_path[i][j-1]-sigma, \
-                longest_path[i-1][j-1] - u) # +/- u depending on values
+                longest_path[i-1][j-1] + u) # +/- u depending on values
 
             if longest_path[i][j] == (longest_path[i-1][j]-sigma):
                 backtrack[i][j] = 'D'
@@ -46,7 +46,7 @@ def FittingAlignmentBacktrack(g1, g2):
                 backtrack[i][j] = 'R'
             elif longest_path[i][j] == (longest_path[i-1][j-1] + match):
                 backtrack[i][j] = 'M'
-            elif longest_path[i][j] == (longest_path[i-1][j-1] - u): # +/- u depending on values
+            elif longest_path[i][j] == (longest_path[i-1][j-1] + u): # +/- u depending on values
                 backtrack[i][j] = 'MM'
 
     #print(longest_path)
@@ -86,20 +86,21 @@ def start():
     genome1, genome2 = read_input("dataset.txt")
     longest_path, backtrack, idx1, idx2, score = FittingAlignmentBacktrack(genome2, genome1)
     s1, s2 = OutputFittingAlignment(backtrack, genome2, genome1, idx1, idx2)
+    print(longest_path)
     print(score)
     print(s2)
     print(s1)
 
 
-    try:
-        output_file = open("output.txt", "w")
-        output_file.write(str(score) + '\n')
-        output_file.write(s2 + '\n')
-        output_file.write(s1 + '\n')
-        output_file.close()
-        print("Output written successfully to the textfile.")
-    except:
-        print('File I/O Error...')
+    #try:
+    #    output_file = open("output.txt", "w")
+    #    output_file.write(str(score) + '\n')
+    #    output_file.write(s2 + '\n')
+    #    output_file.write(s1 + '\n')
+    #    output_file.close()
+    #    print("Output written successfully to the textfile.")
+    #except:
+    #    print('File I/O Error...')
 
 if __name__ == '__main__':
     start()

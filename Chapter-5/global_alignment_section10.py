@@ -22,7 +22,7 @@ def read_input(filename, scoring_file):
 # Edge weights are defined by the scoring matrix and penalties
 def GlobalAlignmentBacktrack(g1, g2, scoring_matrix):
     # sigma is indel penalty
-    sigma = 5
+    sigma = 4
     n1 = len(g1)
     n2 = len(g2)
     longest_path = np.zeros((n1+1, n2+1), dtype=int)
@@ -39,13 +39,15 @@ def GlobalAlignmentBacktrack(g1, g2, scoring_matrix):
             u = 0
             if g1[i-1] == g2[j-1]:
                 l_pos = letter_position[g1[i-1]]
-                match = scoring_matrix[l_pos][l_pos]
+                #match = scoring_matrix[l_pos][l_pos]
+                match = 1
                 longest_path[i][j] = max(longest_path[i-1][j]-sigma, longest_path[i][j-1]-sigma, \
                 longest_path[i-1][j-1] + match)
             else:
                 l1_pos = letter_position[g1[i-1]]
                 l2_pos = letter_position[g2[j-1]]
-                u = scoring_matrix[l1_pos][l2_pos]
+                #u = scoring_matrix[l1_pos][l2_pos]
+                u = -1
                 longest_path[i][j] = max(longest_path[i-1][j]-sigma, longest_path[i][j-1]-sigma, \
                 longest_path[i-1][j-1] + u)
 
@@ -94,19 +96,20 @@ def start():
     genome1, genome2, scoring_matrix = read_input("dataset.txt", "BLOSUM62.txt")
     longest_path, backtrack, n1, n2, score = GlobalAlignmentBacktrack(genome1, genome2, scoring_matrix)
     s1, s2 = OutputGlobalAlignment(backtrack, genome1, genome2, n1, n2)
-    #print(score)
-    #print(s1)
-    #print(s2)
+    print(longest_path)
+    print(score)
+    print(s1)
+    print(s2)
 
-    try:
-        output_file = open("output.txt", "w")
-        output_file.write(str(score) + '\n')
-        output_file.write(s1 + '\n')
-        output_file.write(s2 + '\n')
-        output_file.close()
-        print("Output written successfully to the textfile.")
-    except:
-        print('File I/O Error...')
+    #try:
+    #    output_file = open("output.txt", "w")
+    #    output_file.write(str(score) + '\n')
+    #    output_file.write(s1 + '\n')
+    #    output_file.write(s2 + '\n')
+    #    output_file.close()
+    #    print("Output written successfully to the textfile.")
+    #except:
+    #    print('File I/O Error...')
 
 if __name__ == '__main__':
     start()
